@@ -1,0 +1,64 @@
+/*
+ *     This file is part of UnifiedMetrics.
+ *
+ *     UnifiedMetrics is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     UnifiedMetrics is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with UnifiedMetrics.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+    id("com.github.johnrengelman.shadow")
+}
+
+repositories {
+    maven("https://repo.spongepowered.org/maven")
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    api(project(":unifiedmetrics-core"))
+
+    compileOnly("com.github.Anuken.Mindustry:core:v143")
+    compileOnly("com.github.Redstonneur1256.Mindustry-ModLib:Mod:1.4.5")
+    testImplementation("com.github.Anuken.Mindustry:core:v143")
+    testImplementation("com.github.Redstonneur1256.Mindustry-ModLib:Mod:1.4.5")
+}
+
+tasks {
+    shadowJar {
+        archiveClassifier.set("")
+        relocate("retrofit2", "dev.cubxity.plugins.metrics.libs.retrofit2")
+        relocate("com.charleskorn", "dev.cubxity.plugins.metrics.libs.com.charleskorn")
+        relocate("com.influxdb", "dev.cubxity.plugins.metrics.libs.com.influxdb")
+        relocate("okhttp", "dev.cubxity.plugins.metrics.libs.okhttp")
+        relocate("okio", "dev.cubxity.plugins.metrics.libs.okio")
+        relocate("io.prometheus", "dev.cubxity.plugins.metrics.libs.io.prometheus")
+    }
+    compileKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+        from("src/main/resources") {
+            expand("version" to version)
+            include("plugin.json")
+        }
+    }
+}
+
+java {
+    targetCompatibility = JavaVersion.VERSION_17
+}

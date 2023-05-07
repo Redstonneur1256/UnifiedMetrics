@@ -15,17 +15,24 @@
  *     along with UnifiedMetrics.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.cubxity.plugins.metrics.api.platform
+package dev.cubxity.plugins.metrics.mindustry.metric.event
 
-sealed class PlatformType(val name: String) {
-    // Server implementations
-    object Bukkit : PlatformType("Bukkit")
-    object Minestom : PlatformType("Minestom")
-    object Fabric : PlatformType("Fabric")
+import dev.cubxity.plugins.metrics.api.metric.collector.Collector
+import dev.cubxity.plugins.metrics.api.metric.collector.CollectorCollection
+import dev.cubxity.plugins.metrics.api.metric.collector.Counter
+import dev.cubxity.plugins.metrics.api.metric.store.DoubleAdderStore
 
-    // Proxies
-    object Velocity : PlatformType("Velocity")
-    object BungeeCord : PlatformType("BungeeCord")
-    object Mindustry : PlatformType("Mindustry")
+object EventCollection : CollectorCollection {
+
+    private val eventCounter = Counter("mindustry_event_total", valueStoreFactory = DoubleAdderStore)
+
+    override val isAsync: Boolean
+        get() = true
+
+    override val collectors: List<Collector> = listOf(eventCounter)
+
+    fun increment(key: Any?) {
+        eventCounter.inc()
+    }
 
 }

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.cubxity.plugins.metrics.mindustry.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EventsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

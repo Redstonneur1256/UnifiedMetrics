@@ -15,17 +15,23 @@
  *     along with UnifiedMetrics.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.cubxity.plugins.metrics.api.platform
+package dev.cubxity.plugins.metrics.mindustry.mixins;
 
-sealed class PlatformType(val name: String) {
-    // Server implementations
-    object Bukkit : PlatformType("Bukkit")
-    object Minestom : PlatformType("Minestom")
-    object Fabric : PlatformType("Fabric")
+import arc.Events;
+import arc.struct.ObjectMap;
+import dev.cubxity.plugins.metrics.mindustry.metric.event.EventCollection;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-    // Proxies
-    object Velocity : PlatformType("Velocity")
-    object BungeeCord : PlatformType("BungeeCord")
-    object Mindustry : PlatformType("Mindustry")
+@Mixin(Events.class)
+public class EventsMixin {
+
+    @Redirect(method = { "fire(Ljava/lang/Enum;)V", "fire(Ljava/lang/Class;Ljava/lang/Object;)V" },
+            at = @At(value = "INVOKE", target = "Larc/struct/ObjectMap;get(Ljava/lang/Object;)Ljava/lang/Object;"))
+    private static <K> Object fire1(ObjectMap<Object, ?> instance, Object key) {
+        EventCollection.INSTANCE.increment(key);
+        return instance.get(key);
+    }
 
 }

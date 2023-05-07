@@ -15,17 +15,19 @@
  *     along with UnifiedMetrics.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.cubxity.plugins.metrics.api.platform
+package dev.cubxity.plugins.metrics.mindustry.metric.tick
 
-sealed class PlatformType(val name: String) {
-    // Server implementations
-    object Bukkit : PlatformType("Bukkit")
-    object Minestom : PlatformType("Minestom")
-    object Fabric : PlatformType("Fabric")
+import arc.Core
+import dev.cubxity.plugins.metrics.api.metric.collector.Collector
+import dev.cubxity.plugins.metrics.api.metric.data.GaugeMetric
+import dev.cubxity.plugins.metrics.api.metric.data.Metric
 
-    // Proxies
-    object Velocity : PlatformType("Velocity")
-    object BungeeCord : PlatformType("BungeeCord")
-    object Mindustry : PlatformType("Mindustry")
+class TickCollector : Collector {
+
+    override fun collect(): List<Metric> {
+        return listOf(
+            GaugeMetric("mindustry_tps", value = Core.graphics.framesPerSecond)
+        )
+    }
 
 }

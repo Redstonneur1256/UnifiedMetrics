@@ -15,17 +15,31 @@
  *     along with UnifiedMetrics.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.cubxity.plugins.metrics.api.platform
+package dev.cubxity.plugins.metrics.mindustry.util
 
-sealed class PlatformType(val name: String) {
-    // Server implementations
-    object Bukkit : PlatformType("Bukkit")
-    object Minestom : PlatformType("Minestom")
-    object Fabric : PlatformType("Fabric")
+import arc.util.Log
+import dev.cubxity.plugins.metrics.api.logging.Logger
 
-    // Proxies
-    object Velocity : PlatformType("Velocity")
-    object BungeeCord : PlatformType("BungeeCord")
-    object Mindustry : PlatformType("Mindustry")
+class MindustryLogger : Logger {
+
+    override fun info(message: String) {
+        Log.info(message)
+    }
+
+    override fun warn(message: String) {
+        Log.warn(message)
+    }
+
+    override fun warn(message: String, error: Throwable) {
+        Log.err(message, error)
+    }
+
+    override fun severe(message: String) {
+        Log.err(message)
+    }
+
+    override fun severe(message: String, error: Throwable) {
+        Log.err(message, error)
+    }
 
 }

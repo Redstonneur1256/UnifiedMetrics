@@ -1,0 +1,8 @@
+{
+  "name": "UnifiedMetrics",
+  "version": "${version}",
+  "author": "Redstonneur1256",
+  "description": "Fully-featured metrics plugin",
+  "main": "dev.cubxity.plugins.metrics.mindustry.bootstrap.UnifiedMetricsMindustryBootstrap",
+  "repo": "Cubxity/UnifiedMetric"
+}
