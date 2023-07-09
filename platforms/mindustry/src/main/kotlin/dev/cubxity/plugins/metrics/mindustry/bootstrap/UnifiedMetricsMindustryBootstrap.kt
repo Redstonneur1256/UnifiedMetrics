@@ -31,18 +31,20 @@ import mindustry.core.Version
 import mindustry.mod.Plugin
 import java.nio.file.Path
 
-class UnifiedMetricsMindustryBootstrap : Plugin(), ApplicationListener, UnifiedMetricsBootstrap {
+class UnifiedMetricsMindustryBootstrap : Plugin(), UnifiedMetricsBootstrap {
 
     private val plugin = UnifiedMetricsMindustryPlugin(this)
 
     override fun init() {
         plugin.enable()
 
-        Core.app.addListener(this)
-    }
-
-    override fun dispose() {
-        plugin.disable()
+        Core.app.addListener(
+            object: ApplicationListener {
+                override fun dispose() {
+                    plugin.disable()
+                }
+            },
+        )
     }
 
     override val type: PlatformType
@@ -58,7 +60,7 @@ class UnifiedMetricsMindustryBootstrap : Plugin(), ApplicationListener, UnifiedM
         get() = configDirectory.parent
 
     override val configDirectory: Path
-        get() = config.file().toPath()
+        get() = config.parent().file().toPath()
 
     override val logger: Logger = MindustryLogger()
 

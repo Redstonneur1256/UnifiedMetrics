@@ -27,9 +27,9 @@ repositories {
 dependencies {
     api(project(":unifiedmetrics-core"))
 
-    compileOnly("com.github.Anuken.Mindustry:core:v143")
+    compileOnly("com.github.Anuken.Mindustry:core:v145")
     compileOnly("com.github.Redstonneur1256.Mindustry-ModLib:Mod:1.4.5")
-    testImplementation("com.github.Anuken.Mindustry:core:v143")
+    testImplementation("com.github.Anuken.Mindustry:core:v145")
     testImplementation("com.github.Redstonneur1256.Mindustry-ModLib:Mod:1.4.5")
 }
 

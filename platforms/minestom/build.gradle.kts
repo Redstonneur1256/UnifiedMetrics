@@ -27,8 +27,8 @@ repositories {
 dependencies {
     api(project(":unifiedmetrics-core"))
 
-    compileOnly("com.github.minestom.minestom:Minestom:8ad2c7701f")
-    testImplementation("com.github.minestom.minestom:Minestom:8ad2c7701f")
+    compileOnly("com.github.minestom.minestom:Minestom:-SNAPSHOT")
+    testImplementation("com.github.minestom.minestom:Minestom:-SNAPSHOT")
 }
 
 tasks {
