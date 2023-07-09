@@ -19,9 +19,9 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.21" apply false
-    kotlin("kapt") version "1.8.21" apply false
-    kotlin("plugin.serialization") version "1.8.21" apply false
+    kotlin("jvm") version "1.8.22" apply false
+    kotlin("kapt") version "1.8.22" apply false
+    kotlin("plugin.serialization") version "1.8.22" apply false
     id("com.github.johnrengelman.shadow") version "8.1.1" apply false
     id("net.kyori.blossom") version "1.3.1" apply false
 }
@@ -29,7 +29,7 @@ plugins {
 allprojects {
     group = "dev.cubxity.plugins"
     description = "Fully featured metrics collector agent for Minecraft servers."
-    version = "0.3.8"
+    version = "0.3.9-SNAPSHOT"
 
     repositories {
         mavenCentral()

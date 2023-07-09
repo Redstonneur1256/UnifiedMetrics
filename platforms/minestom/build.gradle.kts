@@ -27,8 +27,8 @@ repositories {
 dependencies {
     api(project(":unifiedmetrics-core"))
 
-    compileOnly("com.github.minestom.minestom:Minestom:-SNAPSHOT")
-    testImplementation("com.github.minestom.minestom:Minestom:-SNAPSHOT")
+    compileOnly("com.github.minestom.minestom:Minestom:9b15acf4fa")
+    testImplementation("com.github.minestom.minestom:Minestom:9b15acf4fa")
 }
 
 tasks {
@@ -48,11 +48,10 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
     processResources {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-
-        from("src/main/resources") {
-            expand("version" to version)
-            include("extension.json")
+        filesMatching("extension.json") {
+            expand(
+                "version" to project.version
+            )
         }
     }
 }
