@@ -17,7 +17,9 @@
 
 package dev.cubxity.plugins.metrics.mindustry.metric.tick
 
+import arc.ApplicationListener
 import arc.Core
+import arc.util.Time
 import dev.cubxity.plugins.metrics.api.metric.collector.Collector
 import dev.cubxity.plugins.metrics.api.metric.collector.CollectorCollection
 import dev.cubxity.plugins.metrics.api.metric.collector.Histogram
@@ -28,17 +30,31 @@ import mindustry.game.EventType
 class TickCollection : CollectorCollection {
 
     private val histogram = Histogram("mindustry_tick_delta")
-    private var listener: RegisteredListener? = null
+    private var startListener: RegisteredListener? = null
+    private var stopListener: ApplicationListener? = null
 
     override val collectors: List<Collector>
         get() = listOf(histogram, TickCollector())
 
     override fun initialize() {
-        listener = EventUtil.run(EventType.Trigger.update) { histogram.plusAssign(Core.graphics.deltaTime.toDouble()) }
+        var start = 0L
+
+        // We cannot use an ApplicationListener for the start of the tick because this would require inserting it
+        // at the start of listeners during the initialization causing init to be called twice
+        startListener = EventUtil.run(EventType.Trigger.update) {
+            start = Time.nanos()
+        }
+        stopListener = object : ApplicationListener {
+            override fun update() {
+                histogram.plusAssign(Time.timeSinceNanos(start) / 1_000_000_000.0)
+            }
+        }
+        Core.app.listeners.add(stopListener)
     }
 
     override fun dispose() {
-        listener!!.unregister()
+        startListener!!.unregister()
+        Core.app.listeners.remove(stopListener)
     }
 
 }
